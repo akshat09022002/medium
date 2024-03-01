@@ -44,26 +44,26 @@ app.post('/api/v1/signup', async (c) => {
   const body = await c.req.json();
   console.log(body);
 
-  const user= await prisma.user.create({
-    data:{
-      email: body.email,
-      password: body.password,
-      name: body.name
-    }
-  })
-
-  if(!user){
-    c.status(403);
-    return c.json({
-      "msg" : "User doesn't exist"
+  try{
+    const user= await prisma.user.create({
+      data:{
+        email: body.email,
+        password: body.password,
+        name: body.name
+      }
     })
-  }
 
-  const token=await sign({id: user.id},c.env.JWT_SECRET)
+    const token=await sign({id: user.id},c.env.JWT_SECRET)
 
-  return c.json({
+    return c.json({
     jwt: token
   })
+  }catch(e){
+    c.status(403);
+    return c.json({
+      "msg":"user alrerady exists"
+    })
+  }
 })
 
 app.post('/api/v1/signin', (c) => {
@@ -80,6 +80,10 @@ app.put('/api/v1/blog', (c) => {
 
 app.get('/api/v1/blog/:id', (c) => {
   return c.text('Hello Hono!')
+})
+
+app.get('/api/v1/blog/bulk',(c)=>{
+  return c.text("hello hono");
 })
 
 export default app
