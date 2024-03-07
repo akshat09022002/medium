@@ -24,7 +24,7 @@ export const Authfields = () => {
                         Create An Account
                     </div>
                     <div className="font-semibold text-white">
-                        Already Have An Account? Login
+                        Already Have An Account? <Link to={"/signin"} className="underline">Login</Link>
                     </div>
                 </div>
 

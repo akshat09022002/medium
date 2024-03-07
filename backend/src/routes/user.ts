@@ -36,13 +36,11 @@ userRouter.post('/signup', async (c) => {
           lastname: body.lastname
         }
       })
-  
-      const token=await sign({id: user.id},c.env.JWT_SECRET)
-      
-      
+      // c.status(200);
       return c.json({
-      jwt: token
-    })
+        "msg":"Account Created Successfully"
+      })
+
     }catch(e){
       c.status(403);
       return c.json({
@@ -68,21 +66,32 @@ userRouter.post('/signup', async (c) => {
     }
   
     try{
-      const response= await prisma.user.findFirst({
+      const user= await prisma.user.findFirst({
         where: {
           email: body.email,
           password: body.password
         }
     })
-    if(!response){
+
+    if(!user){
       c.status(403);
-      return c.text("Incorrect credentials")
+      return c.json({
+        msg: "Login Credentials Are Invalid"
+      })
     }
-    c.status(200);
-    return c.text("great");
+
+    const token=await sign({id: user.id},c.env.JWT_SECRET)
+      
+      
+    return c.json({
+      jwt: token
+    })
+
     }catch(e){
-      c.status(411);
-      return c.text("Invalid credentials");
+      c.status(503);
+      return c.json({
+        msg:"Something Went Wrong"
+      })
     }
     
   })
