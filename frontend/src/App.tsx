@@ -1,4 +1,3 @@
-import { useState,useEffect } from 'react'
 
 import './App.css'
 import { Signup } from './pages/Signup'

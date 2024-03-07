@@ -14,15 +14,13 @@ export const userRouter = new Hono<{
 userRouter.post('/signup', async (c) => {
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate())
-  
+    }).$extends(withAccelerate());
     
-
     const body = await c.req.json();
 
-    const success= signupInput.safeParse(body);
+    const response= signupInput.safeParse(body);
 
-    if(!success){
+    if(!response.success){
         c.status(422);
         return c.json({
             "msg": "invalid credentials"
@@ -34,12 +32,14 @@ userRouter.post('/signup', async (c) => {
         data:{
           email: body.email,
           password: body.password,
-          name: body.name
+          firstname: body.firstname,
+          lastname: body.lastname
         }
       })
   
       const token=await sign({id: user.id},c.env.JWT_SECRET)
-  
+      
+      
       return c.json({
       jwt: token
     })
@@ -59,8 +59,8 @@ userRouter.post('/signup', async (c) => {
     }).$extends(withAccelerate());
 
 
-    const success= signinInput.safeParse(body);
-    if(!success){
+    const response= signinInput.safeParse(body);
+    if(!response.success){
         c.status(422);
         return c.json({
             "msg": "Invalid Credentials"

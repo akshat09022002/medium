@@ -16,7 +16,8 @@ datasource db {
 model User {
   id       String   @id @default(uuid())  // uuid is a way to generate unique id's with a very less chance of collision
   email    String   @unique
-  name     String?
+  firstname String?
+  lastname String?
   password String
   posts    Post[]
 }

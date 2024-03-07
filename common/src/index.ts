@@ -1,7 +1,7 @@
 import z from "zod"
 
 export const signupInput= z.object({
-    email: z.string().email(),
+    email: z.string().email({message: "Invalid email"}),
     password: z.string().min(6),
     firstname: z.string(),
     lastname: z.string()
