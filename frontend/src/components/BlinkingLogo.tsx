@@ -5,6 +5,7 @@ export const BlinkingLogo=()=>{
     useEffect(()=>{
         const intervalId=setInterval(()=>{
                 setcolor((e)=>{
+        
                     return e = (color=="black" ? "white" : "black");
                 })
             },1000);

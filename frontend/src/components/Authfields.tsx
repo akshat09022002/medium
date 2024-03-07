@@ -3,6 +3,7 @@ import axios from "axios"
 import { ChangeEvent, useState } from "react"
 import { Link } from "react-router-dom"
 import { SuccessAlert } from "./Alert"
+import { Backend_Api } from "../config"
 
 export const Authfields = () => {
 
@@ -61,7 +62,7 @@ export const Authfields = () => {
                 <div className="w-full flex justify-center mt-4">
                     <button onClick={async ()=>{
                         try{
-                            const response = await axios.post("https://backend.akshatkindle.workers.dev/api/v1/user/signup",{
+                            const response = await axios.post(`${Backend_Api}/api/v1/user/signup`,{
                                 firstname: postInputs.firstname,
                                 lastname: postInputs.lastname,
                                 email: postInputs.email,

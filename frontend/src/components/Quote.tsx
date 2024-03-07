@@ -1,10 +1,11 @@
 import axios from "axios"
 import { useEffect, useState } from "react";
+import { QuoteApi_key } from "../config";
 
 async function getQuote() {
     const response = await axios.get("https://api.api-ninjas.com/v1/quotes", {
         headers: {
-            "X-Api-Key": "76KGTd3V6D5C0ieFV10+Ow==pSoDQy9RUxv7pufu"
+            "X-Api-Key": QuoteApi_key
         }
     })
 
@@ -30,7 +31,7 @@ export const Quote = () => {
 
     }, []);
 
-    return <div className="invisible lg:visible h-screen flex flex-col justify-center">
+    return <div className="bg-[#def2f1] invisible lg:visible h-screen flex flex-col justify-center">
         <div className="flex justify-center">
             <div className="w-3/5">
                 <div className="font-semibold text-3xl">
