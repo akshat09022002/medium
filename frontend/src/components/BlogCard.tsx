@@ -17,7 +17,7 @@ export const BlogCard = (props: blogcontent) => {
     return <div className=" border-b-2">
         <div className="flex justify-normal m-4">
             <div className="m-1 ml-2 flex flex-col justify-center">
-                <div className="relative inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <div className=" inline-flex items-center justify-center w-12 h-12 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                     <div className="font-medium text-gray-600 dark:text-gray-300">{getInitials(props.firstname.toUpperCase(), props.lastname.toUpperCase())}</div>
                 </div>
             </div>
