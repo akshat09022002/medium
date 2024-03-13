@@ -1,11 +1,12 @@
 import { SigninInput, SignupInput } from "@hitemup09/blogsite-common"
 import axios from "axios"
 import { ChangeEvent, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SuccessAlert } from "./Alert"
 import { Backend_Api } from "../config"
 
 export const Authfields2= () => {
+    const navigate=useNavigate();
 
     const [postInputs, setInputs] = useState<SigninInput>({
         email: "",
@@ -49,9 +50,11 @@ export const Authfields2= () => {
                                 email: postInputs.email,
                                 password: postInputs.password
                             });
-                            console.log(response.data.jwt);
+                            localStorage.setItem("token",response.data.jwt);
                             setsuccess("success");
                             setmsg("Successfully Logged In")
+                            navigate('/home')
+                            
                         } catch (e: any) {
                             const status = e.response.status;
                             if(status=="403" || "422"){

@@ -1,44 +1,63 @@
+import { useEffect, useState } from "react"
 import { BlogCard } from "../components/BlogCard"
 import { Navbar } from "../components/Navbar"
+import axios from "axios"
+import { Backend_Api } from "../config"
+import { useNavigate } from "react-router-dom"
 
+
+type blogdata = {
+    id: string
+    title: string
+    content: string
+    published: string
+    author: {
+        firstname: string
+        lastname: string
+    }
+}
 
 export const Home = () => {
+    const [blogs, setblogs] = useState([]);
+    const navigate= useNavigate();
+
+    useEffect(() => {
+        const getBlogs = async () => {
+            const response = await axios.get(`${Backend_Api}/api/v1/blog/bulk`, {
+            });
+            setblogs((e) => {
+                e = response.data.blog;
+                return e;
+            });
+        }
+
+        getBlogs();
+
+
+    }, []);
+
     return <div>
         <Navbar></Navbar>
         <div className="pt-36 grid grid-cols-5 h-screen bg-[#def2f1]">
             <div className="col-span-3 flex flex-row justify-end  h-full overflow-y-auto">
                 <div className="w-3/4 mr-20">
 
-                    <BlogCard title="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size." content="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size.
-
-                The Math.ceil function rounds a number up to the nearest integer. In this case, it's used to ensure that even if the division result isn't a whole number, the result will be rounded up to the nearest whole number, since you can't have a fraction of a page.
-
-                Let me break down the expression for you:" date="02 Feb 2024" firstname="Akshat" lastname="Singh"></BlogCard>
-
-                    <BlogCard title="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size." content="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size.
-
-                The Math.ceil function rounds a number up to the nearest integer. In this case, it's used to ensure that even if the division result isn't a whole number, the result will be rounded up to the nearest whole number, since you can't have a fraction of a page.
-
-                Let me break down the expression for you:" date="02 Feb 2024" firstname="Akshat" lastname="Singh"></BlogCard>
-
-                    <BlogCard title="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size." content="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size.
-
-                The Math.ceil function rounds a number up to the nearest integer. In this case, it's used to ensure that even if the division result isn't a whole number, the result will be rounded up to the nearest whole number, since you can't have a fraction of a page.
-
-                Let me break down the expression for you:" date="02 Feb 2024" firstname="Akshat" lastname="Singh"></BlogCard>
-
-                    <BlogCard title="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size." content="It seems like you're using the Math.ceil function in JavaScript to calculate the number of pages based on the length of some content and a page size of 205. This is commonly used to determine the number of pages needed to display a certain amount of content with a fixed page size.
-
-                The Math.ceil function rounds a number up to the nearest integer. In this case, it's used to ensure that even if the division result isn't a whole number, the result will be rounded up to the nearest whole number, since you can't have a fraction of a page.
-
-                Let me break down the expression for you:" date="02 Feb 2024" firstname="Akshat" lastname="Singh"></BlogCard>
-
+                    {
+                        blogs.map((blog: blogdata) => {
+                            return <BlogCard title={blog.title} content={blog.content} published={blog.published} firstname={blog.author.firstname} lastname={blog.author.lastname}></BlogCard>
+                        })
+                    }
 
                 </div>
 
             </div>
             <div className="col-span-2 border-opacity ml-10 h-full">
-                
+                <div className="ml-20">
+                    <button type="button" onClick={()=>{
+                        navigate('/createblog');
+                    }} className="text-white bg-gray-800 mb-4 hover:bg-gray-900 w-1/4 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2">Create New Blog</button>
+                </div>
+
 
             </div>
         </div>

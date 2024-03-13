@@ -11,6 +11,46 @@ export const userRouter = new Hono<{
 	}
 }>();
 
+userRouter.get('/getDetails', async(c)=>{
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+   const token= await c.req.header("authorization");
+   if(!token){
+    c.status(500);
+    return c.json({
+      "msg":"Invalid Request"
+    })
+   }
+
+    try{
+    const response=await verify(token,c.env.JWT_SECRET);
+    
+    const user=await prisma.user.findFirst({
+      where:{
+        id: response.id
+      }
+    })
+
+    if(user){
+      return c.json({
+        firstname: user.firstname,
+        lastname: user.lastname
+
+      })
+    }
+    else{
+      c.status(500);
+      return c.json({
+        "msg":"Invalid Request"
+      })
+    }
+  }catch(err){
+
+  }
+})
+
 userRouter.post('/signup', async (c) => {
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
@@ -81,7 +121,6 @@ userRouter.post('/signup', async (c) => {
     }
 
     const token=await sign({id: user.id},c.env.JWT_SECRET)
-      
       
     return c.json({
       jwt: token

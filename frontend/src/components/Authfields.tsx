@@ -1,11 +1,12 @@
 import { SignupInput } from "@hitemup09/blogsite-common"
 import axios from "axios"
 import { ChangeEvent, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SuccessAlert } from "./Alert"
 import { Backend_Api } from "../config"
 
 export const Authfields = () => {
+    const navigate=useNavigate();
 
     const [postInputs, setInputs] = useState<SignupInput>({
         firstname: "",
@@ -70,6 +71,7 @@ export const Authfields = () => {
                             });
                             setsuccess("success");
                             setmsg("Account Is Created.");
+                            navigate('/sigin')
                         }catch(e:any){
                             const status= e.response.status;
                             if(status=="422"){
