@@ -71,7 +71,7 @@ export const Authfields = () => {
                             });
                             setsuccess("success");
                             setmsg("Account Is Created.");
-                            navigate('/sigin')
+                            navigate('/signin')
                         }catch(e:any){
                             const status= e.response.status;
                             if(status=="422"){

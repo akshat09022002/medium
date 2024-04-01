@@ -1,3 +1,5 @@
+import * as cheerio from 'cheerio';
+
 
 type blogcontent = {
     title: string
@@ -16,6 +18,12 @@ function getInitials(fname: string, sname: string) {
 }
 
 export const BlogCard = (props: blogcontent) => {
+    console.log(props.content);
+    const $ = cheerio.load(props.content);
+    $('img').remove();
+    const modcontent = $.html();
+    console.log(modcontent);
+
     return <div className=" border-b-2">
         <div className="flex justify-normal m-4">
             <div className="m-1 ml-2 flex flex-col justify-center">
@@ -33,15 +41,20 @@ export const BlogCard = (props: blogcontent) => {
             </div>
         </div>
         <div className="cursor-pointer">
-            <div className="text-2xl font-semibold m-4">
-                {props.title}
-            </div>
-            <div className="m-4 text-lg font-serif">
-                <div className="max-h-32 p-2 overflow-hidden flex" dangerouslySetInnerHTML={{ __html: (props.content.length<=400 ? props.content : (props.content+ "...")) }}></div>
+
+            <div className="m-4 max-h-38 text-lg font-serif flex justify-between overflow-hidden">
+                <div className="w-3/4 mr-8">
+                    <div className="text-2xl font-semibold m-4">
+                        {props.title}
+                    </div>
+                    <div className="p-2 flex overflow-hidden" dangerouslySetInnerHTML={{ __html: modcontent}}></div>
+                </div>
+               
+                <div className='w-1/4 ml-2 h-34 flex flex-col justify-center'><img className="" src='https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg'></img></div>
             </div>
         </div>
         <div className="m-4 text-sm text-slate-600">
-            {Math.ceil(props.content.length / 205)} min read
+            {Math.ceil(modcontent.length / 205)} min read
         </div>
     </div>
 }

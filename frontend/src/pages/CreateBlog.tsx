@@ -8,6 +8,7 @@ import { Navbar } from '../components/Navbar';
 import axios from 'axios';
 import { Backend_Api } from '../config';
 
+
 export const CreateBlog = () => {
   const [editorState, setEditorState] = useState(
     () => EditorState.createEmpty(),
